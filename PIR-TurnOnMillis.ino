@@ -16,18 +16,15 @@ void setup() {
 }
 
 void loop() {
-  // read the state of the pushbutton value:
   PIRState = digitalRead(PIRPin);
   currentTime = millis();
-if ((triggerTime > currentTime) {
-    triggerTime = 0; //handles when currentTime rolls over to zero every ~50 days
-  }
-  if ((PIRState == HIGH)&&(currentTime > 5000)) { //waits 5 seconds after power on to trigger
+  
+  if ((PIRState == HIGH)&&(currentTime > 5000)) {
     triggerTime = millis();
-    Serial.print("PIR Triggered, triggerTime reset to: "); 
-    Serial.print(triggerTime); 
-    Serial.print(" Current time: "); 
-    Serial.println(currentTime);
+    Serial.print("PIR Triggered, triggerTime reset to: "); Serial.print(triggerTime); Serial.print(" Current time: "); Serial.println(currentTime);
+  }
+  if ((triggerTime > currentTime) && (triggerTime > delayValue)) {
+    triggerTime = 0; //accomodates for when millis() rolls over ~50 days
   }
   if ((currentTime - triggerTime) < delayValue) { //10 minutes
     digitalWrite(OutPin, HIGH);
